@@ -14,7 +14,7 @@ class EstudiantesService extends ChangeNotifier {
     _usuarioController,
     _promedioController,
   ) async {
-    final url = Uri.parse('http://192.168.0.44:8080/v1/Estudiantes/crear');
+    final url = Uri.parse('http://192.168.1.70:8080/v1/Estudiantes/crear');
     final Map<String, dynamic> requestBody = {
       "id": 0, // El ID puede ser 0 si el servidor lo genera automáticamente
       "nombre": _nombreController,
@@ -52,7 +52,7 @@ class EstudiantesService extends ChangeNotifier {
 
   Future<List<List<dynamic>>> fetchEstudiantes() async {
     final url = Uri.parse(
-      'http://192.168.0.44:8080/v1/estudiantes/obtenerEstudiantes',
+      'http://192.168.1.70:8080/v1/estudiantes/obtenerEstudiantes',
     );
     final response = await http.get(url);
 
@@ -114,7 +114,7 @@ class EstudiantesService extends ChangeNotifier {
       return;
     }*/
 
-   final url = Uri.parse('http://192.168.0.44:8080/v1/estudiantes/editar/$id');
+   final url = Uri.parse('http://192.168.1.70:8080/v1/estudiantes/editar/$id');
     final Map<String, dynamic> requestBody = {
       "id": id, // Asegúrate de que el ID sea correcto
       "nombre": _nombreController.trim(),

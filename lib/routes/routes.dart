@@ -19,5 +19,5 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'informes': ( context) => const Informes(),
   'usuarios': ( context) => const Usuarios(),
   'profile': ( context) => const Profile(),
-  'asignacionEstudiante': (context) => const AsignacionEstudiante(),
+  'asignacionEstudiante': (context) => AsignacionEstudiante(),
 };

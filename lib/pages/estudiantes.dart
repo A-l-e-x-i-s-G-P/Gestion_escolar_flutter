@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_escolar/Service/asingacion_estudiante_service.dart';
 import 'package:gestion_escolar/widgets/dialog.dart';
 import 'package:gestion_escolar/widgets/menu.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +36,9 @@ class _EstudiantesState extends State<Estudiantes> {
   final TextEditingController _telefonoController = TextEditingController();
   final TextEditingController _curpController = TextEditingController();
   final TextEditingController _usuarioController = TextEditingController();
-  final TextEditingController _promedioController =TextEditingController(); // Agregado para el icono
+  final TextEditingController _promedioController =
+      TextEditingController(); // Agregado para el icono
+  final asignacionE = AsingacionEstudianteService();
 
   final String rutas = 'estudiantes';
   @override
@@ -154,6 +157,19 @@ class _EstudiantesState extends State<Estudiantes> {
                                   onPressed: () {},
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red,
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      'asignacionEstudiante',
+                                      arguments: {
+                                      'id': estudiante[0],
+                                      'nombre': estudiante[1],
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(Icons.assignment),
                                 ),
                               ],
                             ),
@@ -434,14 +450,30 @@ class _EstudiantesState extends State<Estudiantes> {
                     await _estudiantesService.editarEstudiante(
                       context,
                       estudiante[0],
-                      _nombreController.text.isNotEmpty ? _nombreController.text : 'Nombre no proporcionado',
-                        _gradoController.text.isNotEmpty ? _gradoController.text : 'Grado no proporcionado',
-                        _grupoController.text.isNotEmpty ? _grupoController.text : 'Grupo no proporcionado',
-                        _correoController.text.isNotEmpty ? _correoController.text : 'Correo no proporcionado',
-                        _telefonoController.text.isNotEmpty ? _telefonoController.text : 'Teléfono no proporcionado',
-                        _curpController.text.isNotEmpty ? _curpController.text : 'CURP no proporcionado',
-                        _usuarioController.text.isNotEmpty ? _usuarioController.text : 'Usuario no proporcionado',
-                        _promedioController.text.isNotEmpty ? _promedioController.text : 'Promedio no proporcionado',
+                      _nombreController.text.isNotEmpty
+                          ? _nombreController.text
+                          : 'Nombre no proporcionado',
+                      _gradoController.text.isNotEmpty
+                          ? _gradoController.text
+                          : 'Grado no proporcionado',
+                      _grupoController.text.isNotEmpty
+                          ? _grupoController.text
+                          : 'Grupo no proporcionado',
+                      _correoController.text.isNotEmpty
+                          ? _correoController.text
+                          : 'Correo no proporcionado',
+                      _telefonoController.text.isNotEmpty
+                          ? _telefonoController.text
+                          : 'Teléfono no proporcionado',
+                      _curpController.text.isNotEmpty
+                          ? _curpController.text
+                          : 'CURP no proporcionado',
+                      _usuarioController.text.isNotEmpty
+                          ? _usuarioController.text
+                          : 'Usuario no proporcionado',
+                      _promedioController.text.isNotEmpty
+                          ? _promedioController.text
+                          : 'Promedio no proporcionado',
                       // ID del estudiante a editar
                       // Agregado par el icono;
                     );
@@ -450,14 +482,30 @@ class _EstudiantesState extends State<Estudiantes> {
                 } else if (accion == 'Agregar') {
                   await _estudiantesService.crearEstudiante(
                     context,
-                    _nombreController.text.isNotEmpty ? _nombreController.text : 'Nombre no proporcionado',
-                        _gradoController.text.isNotEmpty ? _gradoController.text : 'Grado no proporcionado',
-                        _grupoController.text.isNotEmpty ? _grupoController.text : 'Grupo no proporcionado',
-                        _correoController.text.isNotEmpty ? _correoController.text : 'Correo no proporcionado',
-                        _telefonoController.text.isNotEmpty ? _telefonoController.text : 'Teléfono no proporcionado',
-                        _curpController.text.isNotEmpty ? _curpController.text : 'CURP no proporcionado',
-                        _usuarioController.text.isNotEmpty ? _usuarioController.text : 'Usuario no proporcionado',
-                        _promedioController.text.isNotEmpty ? _promedioController.text : 'Promedio no proporcionado',
+                    _nombreController.text.isNotEmpty
+                        ? _nombreController.text
+                        : 'Nombre no proporcionado',
+                    _gradoController.text.isNotEmpty
+                        ? _gradoController.text
+                        : 'Grado no proporcionado',
+                    _grupoController.text.isNotEmpty
+                        ? _grupoController.text
+                        : 'Grupo no proporcionado',
+                    _correoController.text.isNotEmpty
+                        ? _correoController.text
+                        : 'Correo no proporcionado',
+                    _telefonoController.text.isNotEmpty
+                        ? _telefonoController.text
+                        : 'Teléfono no proporcionado',
+                    _curpController.text.isNotEmpty
+                        ? _curpController.text
+                        : 'CURP no proporcionado',
+                    _usuarioController.text.isNotEmpty
+                        ? _usuarioController.text
+                        : 'Usuario no proporcionado',
+                    _promedioController.text.isNotEmpty
+                        ? _promedioController.text
+                        : 'Promedio no proporcionado',
                   ); // Llamar al método para crear estudiante
                   setState(() {});
                   print('Estudiante creado correctamente');
@@ -465,14 +513,30 @@ class _EstudiantesState extends State<Estudiantes> {
                   await _estudiantesService.editarEstudiante(
                     context,
                     estudiante[0],
-                    _nombreController.text.isNotEmpty ? _nombreController.text : 'Nombre no proporcionado',
-                        _gradoController.text.isNotEmpty ? _gradoController.text : 'Grado no proporcionado',
-                        _grupoController.text.isNotEmpty ? _grupoController.text : 'Grupo no proporcionado',
-                        _correoController.text.isNotEmpty ? _correoController.text : 'Correo no proporcionado',
-                        _telefonoController.text.isNotEmpty ? _telefonoController.text : 'Teléfono no proporcionado',
-                        _curpController.text.isNotEmpty ? _curpController.text : 'CURP no proporcionado',
-                        _usuarioController.text.isNotEmpty ? _usuarioController.text : 'Usuario no proporcionado',
-                        _promedioController.text.isNotEmpty ? _promedioController.text : 'Promedio no proporcionado',
+                    _nombreController.text.isNotEmpty
+                        ? _nombreController.text
+                        : 'Nombre no proporcionado',
+                    _gradoController.text.isNotEmpty
+                        ? _gradoController.text
+                        : 'Grado no proporcionado',
+                    _grupoController.text.isNotEmpty
+                        ? _grupoController.text
+                        : 'Grupo no proporcionado',
+                    _correoController.text.isNotEmpty
+                        ? _correoController.text
+                        : 'Correo no proporcionado',
+                    _telefonoController.text.isNotEmpty
+                        ? _telefonoController.text
+                        : 'Teléfono no proporcionado',
+                    _curpController.text.isNotEmpty
+                        ? _curpController.text
+                        : 'CURP no proporcionado',
+                    _usuarioController.text.isNotEmpty
+                        ? _usuarioController.text
+                        : 'Usuario no proporcionado',
+                    _promedioController.text.isNotEmpty
+                        ? _promedioController.text
+                        : 'Promedio no proporcionado',
                     // ID del estudiante a editar
                     // Agregado par el icono;
                   );
@@ -486,6 +550,7 @@ class _EstudiantesState extends State<Estudiantes> {
       },
     );
   }
+
 
   //dialogo que se abrera al presionar el boton de editar
 

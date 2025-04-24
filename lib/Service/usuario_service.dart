@@ -99,7 +99,7 @@ class UsuarioService extends ChangeNotifier {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (context.mounted) {
-          Navigator.of(context).pop(); // Close the dialog
+          Navigator.of(context).pop(); 
         }
         // ignore: use_build_context_synchronously
         snack.mostrarSnackBar('Usuario modificado', context);

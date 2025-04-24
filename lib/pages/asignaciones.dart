@@ -119,9 +119,9 @@ class _AsignacionesState extends State<Asignaciones> {
                     asignacion.map((usuario) {
                       return DataRow(
                         cells: [
-                          DataCell(Text(usuario[0].toString())), // ID
-                          DataCell(Text(usuario[1].toString())), // Nombre
-                          DataCell(Text(usuario[2].toString())), // Email
+                          DataCell(Text(usuario[0].toString())), 
+                          DataCell(Text(usuario[1].toString())), 
+                          DataCell(Text(usuario[2].toString())), 
                           DataCell(
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +159,7 @@ class _AsignacionesState extends State<Asignaciones> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Eliminar usuario'),
+          title: const Text('Eliminar asignación'),
           content: const Text('¿Estás seguro de eliminar esta asignación?'),
           actions: <Widget>[
             TextButton(
