@@ -9,6 +9,8 @@ class AsingacionEstudianteService {
   int contador = 0;
   int suma = 0;
   Future<List<dynamic>> obtenerUA(usuarioid) async {
+    contador = 0;
+    suma = 0;
     List asingacionU = [];
     final asignacion = AsignacionesService();
     final datos =
@@ -40,7 +42,6 @@ class AsingacionEstudianteService {
         contador++;
       }
     }
-    actualizarProm(usuarioid);
     return asingacionU;
   }
 
@@ -54,6 +55,7 @@ class AsingacionEstudianteService {
     final url = Uri.parse(
       'http://192.168.1.70:8080/v1/asignarAsignacionEstudiante/$idAsignacion/$idUsuario/$califiacion/$fecha',
     );
+    // ignore: prefer_typing_uninitialized_variables
     var response;
     bool asignacionExistente = false;
     //llamar obtenrUA
@@ -96,32 +98,64 @@ class AsingacionEstudianteService {
     }
   }
 
-  Future<void> actualizarProm(usuarioid) async {
-    double promedio = suma / contador;
+  Future<bool> actualizarProm(  usuarioid,  nombre,  correo,  grado,  grupo,  telefono,  curp,  usuario,) async {
+    await obtenerUA(usuarioid);
+    double promedio = contador == 0 ? 0.0 : suma / contador;
     final urlProm = Uri.parse(
       'http://192.168.1.70:8080/v1/Promedio/editar/$usuarioid',
     );
-    final Map<String, dynamic> requestBody = {"promedio": promedio};
-    final responseProm = await http.put(
-      urlProm,
-      headers: {"Content-Type": "application/json"},
-      body: json.encode(requestBody),
-    );
-    if (responseProm.statusCode == 200 || responseProm.statusCode == 201) {
+    final Map<String, dynamic> requestBody = {
+      "nombre": nombre,
+      "correo": correo,
+      "grado": grado,
+      "grupo": grupo,
+      "telefono": telefono,
+      "curp": curp,
+      "usuario": usuario,
+      "promedio": promedio,
+    };
+    try {
+      final responseProm = await http.put(
+        urlProm,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(requestBody),
+      );
+      if (responseProm.statusCode == 200 || responseProm.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
       // ignore: avoid_print
-      print('Promedio actualizado exitosamente');
-    } else {
-      // ignore: avoid_print
-      print('Error al actualizar el promedio ${responseProm.statusCode}');
+      print('hola $e');
+      return false;
     }
   }
 
-  // Future<bool> editarAsignacion(
-  //   int asignacionFK,
-  //   int estudianteFK,
-  //   int califiacion,
-  //   String fecha,
-  // ) async {
-  //   final url = Uri.parse('http://192.168.1.70:8080/v1/
-  // }
+  Future<bool> editarAsignacion(asignacion, newCalif) async {
+    final url = Uri.parse(
+      'http://192.168.1.70:8080/v1/calificacion/editar/${asignacion[4]}',
+    );
+    final Map<String, dynamic> requestBody = {
+      'estudianteFK': asignacion[0],
+      "calificacion":int.parse(newCalif),
+      "fecha": asignacion[3],
+    };
+    try {
+      final response = await http.put(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(requestBody),
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error al editar la asignación: $e');
+      return false;
+    }
+  }
 }

@@ -24,7 +24,7 @@ class _EstudiantesState extends State<Estudiantes> {
   @override
   void initState() {
     super.initState();
-    idsFuture = _usuarioService.fetchUsuarioIds();
+    //idsFuture = _usuarioService.fetchUsuarioIds();
     idsEstudiantesFuture = _estudiantesService.fetchEstudiantesIds();
     usuariosExitentesFuture = _estudiantesService.usuarioExintes();
   }
@@ -166,6 +166,13 @@ class _EstudiantesState extends State<Estudiantes> {
                                       arguments: {
                                       'id': estudiante[0],
                                       'nombre': estudiante[1],
+                                      'correo': estudiante[2],
+                                      'grado': estudiante[3],
+                                      'grupo': estudiante[4],
+                                      'telefono': estudiante[5],
+                                      'curp': estudiante[6],
+                                      'usuario': estudiante[7],
+                                      
                                       },
                                     );
                                   },

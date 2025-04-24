@@ -25,16 +25,32 @@ class _AsignacionEstudianteState extends State<AsignacionEstudiante> {
     // Extraer los valores específicos del mapa
     final id = argumentos['id'];
     final nombre = argumentos['nombre'];
+    final correo = argumentos['correo'];
+    final grupo = argumentos['grupo'];
+    final grado = argumentos['grado'];
+    final telefono = argumentos['telefono'];
+    final curp = argumentos['curp'];
+    final usuario = argumentos['usuario'];
     id2 = id;
     return Scaffold(
       appBar: AppBar(
         //boton de regresar
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            asignacionE.actualizarProm(id2);
-            
-            Navigator.pushReplacementNamed(context, 'estudiantes');
+          onPressed: () async {
+            final x = await asignacionE.actualizarProm(id2,nombre,correo,grupo,grado,telefono,curp,usuario,);
+            //Esperar que actualice el promedio antes de regresar
+            if (x) {
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacementNamed(context, 'estudiantes');
+              // ignore: use_build_context_synchronously
+              snack.mostrarSnackBar('Promedio actualizado exitosamente', context);
+            } else {
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacementNamed(context, 'estudiantes');
+              // ignore: use_build_context_synchronously
+              snack.mostrarSnackBar(  'Error al actualizar el promedio',  context,);
+            }
           },
         ),
         title: Text('Asignaciones de $nombre', style: TextStyle(fontSize: 17)),
@@ -123,30 +139,14 @@ class _AsignacionEstudianteState extends State<AsignacionEstudiante> {
                                       icon: Icon(Icons.edit),
                                       color: Colors.blue,
                                       onPressed: () {
-                                        _showDialog();
+                                        _actualizar(asignacion);
                                       },
                                     ),
                                     IconButton(
                                       icon: Icon(Icons.delete),
                                       color: Colors.red,
                                       onPressed: () async {
-                                        if (await asignacionE
-                                            .eliminarAsignacion(
-                                              asignacion[4],
-                                              id2,
-                                            )) {
-                                          snack.mostrarSnackBar(
-                                            'Asignación eliminada',
-                                            // ignore: use_build_context_synchronously
-                                            context,
-                                          );
-                                        } else {
-                                          snack.mostrarSnackBar(
-                                            'Error al eliminar la asignación',
-                                            // ignore: use_build_context_synchronously
-                                            context,
-                                          );
-                                        }
+                                        confirmarEliminacion(asignacion);
 
                                         setState(() {});
                                       },
@@ -264,9 +264,97 @@ class _AsignacionEstudianteState extends State<AsignacionEstudiante> {
                   selectedDate,
                   context,
                 );
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               },
               child: Text('Guardar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _actualizar(asignacion) {
+    TextEditingController newcalificacionController = TextEditingController();
+    newcalificacionController.text = asignacion[2].toString();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Actualizar calificación'),
+          content: TextField(
+            controller: newcalificacionController,
+            decoration: InputDecoration(labelText: 'Nueva calificación'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () async {
+                final x = await asignacionE.editarAsignacion(
+                  asignacion,
+                  newcalificacionController.text,
+                );
+                if (x) {
+                  // ignore: use_build_context_synchronously
+                  snack.mostrarSnackBar('Asignación editada', context);
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pop();
+                } else {
+                  // ignore: use_build_context_synchronously
+                  snack.mostrarSnackBar(
+                    'Error al editar la asignación',
+                    // ignore: use_build_context_synchronously
+                    context,
+                  );
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pop();
+                }
+
+                setState(() {});
+              },
+              child: Text('Actualizar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void confirmarEliminacion(asignacion) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Eliminar Asignación'),
+          content: Text(
+            '¿Estás seguro de que deseas eliminar esta asignación?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (await asignacionE .eliminarAsignacion(asignacion[4],  id2)) {
+                  // ignore: use_build_context_synchronously
+                  snack.mostrarSnackBar('Asignación eliminada',  context,);
+                } else {
+                  // ignore: use_build_context_synchronously
+                  snack.mostrarSnackBar('Error al eliminar la asignación',context,);
+                }
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pop();
+              },
+              child: Text('Eliminar'),
             ),
           ],
         );
