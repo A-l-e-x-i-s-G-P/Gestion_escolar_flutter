@@ -44,125 +44,127 @@ class _AsignacionEstudianteState extends State<AsignacionEstudiante> {
               // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(context, 'estudiantes');
               // ignore: use_build_context_synchronously
-              snack.mostrarSnackBar('Promedio actualizado exitosamente', context);
+              print('Promedio actualizado');
             } else {
               // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(context, 'estudiantes');
               // ignore: use_build_context_synchronously
-              snack.mostrarSnackBar(  'Error al actualizar el promedio',  context,);
+              print('Error al actualizar el promedio');
             }
           },
         ),
         title: Text('Asignaciones de $nombre', style: TextStyle(fontSize: 17)),
       ),
-      body: Column(
-        children: [
-          IconButton(
-            onPressed: () {
-              _showDialog();
-            },
-            icon: Icon(Icons.add),
-            iconSize: 30,
-          ),
-          FutureBuilder(
-            future: asignacionE.obtenerUA(id),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error al cargar las asignaciones'));
-              } else if (!snapshot.hasData || (snapshot.data as List).isEmpty) {
-                return Center(child: Text('No hay asignaciones disponibles'));
-              }
-              final asignaciones = snapshot.data as List;
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.all(
-                    10,
-                  ), // Correctly applying padding here
-                  child: DataTable(
-                    columnSpacing: 10,
-                    border: TableBorder.all(
-                      color: const Color.fromARGB(255, 21, 30, 38),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    headingRowColor: WidgetStateProperty.all<Color>(
-                      const Color.fromARGB(255, 21, 30, 38),
-                    ),
-                    headingTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    columns: const [
-                      DataColumn(
-                        label: Text('Estudiante'),
-                        columnWidth: MaxColumnWidth(
-                          FixedColumnWidth(100),
-                          FixedColumnWidth(130),
-                        ),
-                      ), // Título 1
-                      DataColumn(label: Text('Id asignacion')),
-                      DataColumn(
-                        label: Text('Asignación '),
-                        columnWidth: MaxColumnWidth(
-                          FixedColumnWidth(200),
-                          FixedColumnWidth(230),
-                        ),
-                      ), // Título 2
-                      DataColumn(label: Text('Calificación')), // Título 3
-                      DataColumn(label: Text('Fecha')), // Título 4
-                      DataColumn(label: Text('Acciones')), // Título Acciones
-                    ],
-                    rows:
-                        asignaciones.map((asignacion) {
-                          return DataRow(
-                            cells: [
-                              DataCell(
-                                Text(nombre), // Campo 1
-                              ),
-                              DataCell(Text(asignacion[4].toString())),
-                              DataCell(
-                                Text(asignacion[1].toString()), // Campo 2
-                              ),
-                              DataCell(
-                                Text(asignacion[2].toString()), // Campo 3
-                              ),
-                              DataCell(
-                                Text(asignacion[3].toString()), // Campo 4
-                              ),
-                              DataCell(
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.edit),
-                                      color: Colors.blue,
-                                      onPressed: () {
-                                        _actualizar(asignacion);
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.delete),
-                                      color: Colors.red,
-                                      onPressed: () async {
-                                        confirmarEliminacion(asignacion);
-
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ],
+      body: Center(
+        child: Column(
+          children: [
+            IconButton(
+              onPressed: () {
+                _showDialog();
+              },
+              icon: Icon(Icons.add),
+              iconSize: 30,
+            ),
+            FutureBuilder(
+              future: asignacionE.obtenerUA(id),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error al cargar las asignaciones'));
+                } else if (!snapshot.hasData || (snapshot.data as List).isEmpty) {
+                  return Center(child: Text('No hay asignaciones disponibles'));
+                }
+                final asignaciones = snapshot.data as List;
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                      10,
+                    ), // Correctly applying padding here
+                    child: DataTable(
+                      columnSpacing: 10,
+                      border: TableBorder.all(
+                        color: const Color.fromARGB(255, 21, 30, 38),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      headingRowColor: WidgetStateProperty.all<Color>(
+                        const Color.fromARGB(255, 21, 30, 38),
+                      ),
+                      headingTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      columns: const [
+                        DataColumn(
+                          label: Text('Estudiante'),
+                          columnWidth: MaxColumnWidth(
+                            FixedColumnWidth(100),
+                            FixedColumnWidth(130),
+                          ),
+                        ), // Título 1
+                        DataColumn(label: Text('Id asignacion')),
+                        DataColumn(
+                          label: Text('Asignación '),
+                          columnWidth: MaxColumnWidth(
+                            FixedColumnWidth(200),
+                            FixedColumnWidth(230),
+                          ),
+                        ), // Título 2
+                        DataColumn(label: Text('Calificación')), // Título 3
+                        DataColumn(label: Text('Fecha')), // Título 4
+                        DataColumn(label: Text('Acciones')), // Título Acciones
+                      ],
+                      rows:
+                          asignaciones.map((asignacion) {
+                            return DataRow(
+                              cells: [
+                                DataCell(
+                                  Text(nombre), // Campo 1
                                 ),
-                              ),
-                            ],
-                          );
-                        }).toList(),
+                                DataCell(Text(asignacion[4].toString())),
+                                DataCell(
+                                  Text(asignacion[1].toString()), // Campo 2
+                                ),
+                                DataCell(
+                                  Text(asignacion[2].toString()), // Campo 3
+                                ),
+                                DataCell(
+                                  Text(asignacion[3].toString()), // Campo 4
+                                ),
+                                DataCell(
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.edit),
+                                        color: Colors.blue,
+                                        onPressed: () {
+                                          _actualizar(asignacion);
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete),
+                                        color: Colors.red,
+                                        onPressed: () async {
+                                          confirmarEliminacion(asignacion);
+        
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -170,7 +172,7 @@ class _AsignacionEstudianteState extends State<AsignacionEstudiante> {
   String mensaje = 'Seleccione una asignación';
   void _showDialog() {
     String selectedDate =
-        '${DateTime.now().year}-${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}-${DateTime.now().day}';
+        '${DateTime.now().year}-${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}-${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}';
     mensaje = 'Seleccione una asignación';
     _asignacionController.clear();
     _calificacionController.clear();

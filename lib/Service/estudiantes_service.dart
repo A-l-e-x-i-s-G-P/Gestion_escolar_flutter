@@ -14,17 +14,17 @@ class EstudiantesService extends ChangeNotifier {
     _usuarioController,
     _promedioController,
   ) async {
-    final url = Uri.parse('http://192.168.1.70:8080/v1/Estudiantes/crear');
+    final url = Uri.parse('http://192.168.0.44:8080/v1/Estudiantes/crear');
     final Map<String, dynamic> requestBody = {
       "id": 0, // El ID puede ser 0 si el servidor lo genera automáticamente
       "nombre": _nombreController,
-      "grado": _gradoController.text,
-      "grupo": _grupoController.text,
-      "correo": _correoController.text,
-      "telefono": _telefonoController.text,
-      "curp": _curpController.text,
-      "usuario": _usuarioController.text,
-      "promedio": double.tryParse(_promedioController.text) ?? 0.0,
+      "grado": _gradoController,
+      "grupo": _grupoController,
+      "correo": _correoController,
+      "telefono": _telefonoController,
+      "curp": _curpController,
+      "usuario": _usuarioController,
+      "promedio": double.tryParse(_promedioController) ?? 0.0,
       "icono": "", // Puedes agregar un valor para el icono si es necesario
       
     };
@@ -52,7 +52,7 @@ class EstudiantesService extends ChangeNotifier {
 
   Future<List<List<dynamic>>> fetchEstudiantes() async {
     final url = Uri.parse(
-      'http://192.168.1.70:8080/v1/estudiantes/obtenerEstudiantes',
+      'http://192.168.0.44:8080/v1/estudiantes/obtenerEstudiantes',
     );
     final response = await http.get(url);
 
@@ -114,20 +114,19 @@ class EstudiantesService extends ChangeNotifier {
       return;
     }*/
 
-   final url = Uri.parse('http://192.168.1.70:8080/v1/estudiantes/editar/$id');
+   final url = Uri.parse('http://192.168.0.44:8080/v1/estudiantes/editar/$id');
     final Map<String, dynamic> requestBody = {
       "id": id, // Asegúrate de que el ID sea correcto
       "nombre": _nombreController.trim(),
-      "grado": _gradoController.text,
-      "grupo": _grupoController.text,
-      "correo": _correoController.text,
-      "telefono": _telefonoController.text,
-      "curp": _curpController.text,
-      "usuario": _usuarioController.text,
-      "promedio": double.tryParse(_promedioController.text) ?? 0.0,
+      "grado": _gradoController,
+      "grupo": _grupoController,
+      "correo": _correoController,
+      "telefono": _telefonoController,
+      "curp": _curpController,
+      "usuario": _usuarioController,
+      "promedio": double.tryParse(_promedioController) ?? 0.0,
       "icono": "", // Puedes agregar un valor para el icono si es necesario
     };
-    print(_usuarioController.text + " aqui");
 
     try {
       final response = await http.put(

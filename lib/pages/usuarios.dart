@@ -231,46 +231,61 @@ class _UsuariosState extends State<Usuarios> {
             scrollDirection: Axis.vertical,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: DataTable(
-                sortAscending: true,
-                columnSpacing: 15,
-                columns: const [
-                  DataColumn(label: Text("ID")),
-                  DataColumn(label: Text("Nombre")),
-                  DataColumn(label: Text("Email")),
-                  DataColumn(label: Text("Acciones")),
-                ],
-                rows:
-                    usuarios.map((usuario) {
-                      return DataRow(
-                        cells: [
-                          DataCell(Text(usuario[0].toString())), // ID
-                          DataCell(Text(usuario[1].toString())), // Nombre
-                          DataCell(Text(usuario[2].toString())), // Email
-                          DataCell(
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    _showDialog('Editar', usuario);
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                  color: Colors.blue,
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    _eliminar(usuario[0]);
-                                  },
-                                  icon: const Icon(Icons.delete),
-                                  color: Colors.red,
-                                ),
-                              ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DataTable(
+                  border: TableBorder.all(
+                        color: const Color.fromARGB(255, 21, 30, 38),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      headingRowColor: WidgetStateProperty.all<Color>(
+                        const Color.fromARGB(255, 21, 30, 38),
+                      ),
+                      headingTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  sortAscending: true,
+                  columnSpacing: 15,
+                  columns: const [
+                    DataColumn(label: Text("ID")),
+                    DataColumn(label: Text("Nombre")),
+                    DataColumn(label: Text("Email")),
+                    DataColumn(label: Text("Acciones")),
+                  ],
+                  rows:
+                      usuarios.map((usuario) {
+                        return DataRow(
+                          cells: [
+                            DataCell(Text(usuario[0].toString())), // ID
+                            DataCell(Text(usuario[1].toString())), // Nombre
+                            DataCell(Text(usuario[2].toString())), // Email
+                            DataCell(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      _showDialog('Editar', usuario);
+                                    },
+                                    icon: const Icon(Icons.edit),
+                                    color: Colors.blue,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      _eliminar(usuario[0]);
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                          ],
+                        );
+                      }).toList(),
+                ),
               ),
             ),
           );

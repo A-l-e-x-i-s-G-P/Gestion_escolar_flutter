@@ -98,6 +98,7 @@ class _ProfileState extends State<Profile> {
                   },
                   child: const Text('Guardar'),
                 ),
+                SizedBox(height: 10,),
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cancelar'),

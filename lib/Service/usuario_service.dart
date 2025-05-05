@@ -133,10 +133,10 @@ class UsuarioService extends ChangeNotifier {
     }
   }
 
-  //Future<List<int>> fetchUsuarioIds() async {
-   // final usuarios = await fetchUsuarios();
-   // final ids = usuarios.map<int>((usuario) => usuario[0] as int).toList();
-    //ids.add(0); // Agrega un 0 al arreglo
-    //return ids;
-  //}
+  Future<List<int>> fetchUsuarioIds() async {
+   final usuarios = await fetchUsuarios();
+   final ids = usuarios.map<int>((usuario) => usuario[0] as int).toList();
+  ids.add(0); // Agrega un 0 al arreglo
+  return ids;
+  }
 }

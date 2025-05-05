@@ -92,60 +92,75 @@ class _AsignacionesState extends State<Asignaciones> {
             scrollDirection: Axis.vertical,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: DataTable(
-                dataRowMinHeight: 50,
-                dataRowMaxHeight: 65,
-                columnSpacing: 10,
-                sortAscending: true,
-                columns: const [
-                  DataColumn(label: Text("ID")),
-                  DataColumn(
-                    label: Text("Titulo"),
-                    columnWidth: MaxColumnWidth(
-                      FixedColumnWidth(120),
-                      FixedColumnWidth(330),
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: DataTable(
+                  border: TableBorder.all(
+                        color: const Color.fromARGB(255, 21, 30, 38),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      headingRowColor: WidgetStateProperty.all<Color>(
+                        const Color.fromARGB(255, 21, 30, 38),
+                      ),
+                      headingTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  dataRowMinHeight: 50,
+                  dataRowMaxHeight: 65,
+                  columnSpacing: 10,
+                  sortAscending: true,
+                  columns: const [
+                    DataColumn(label: Text("ID")),
+                    DataColumn(
+                      label: Text("Titulo"),
+                      columnWidth: MaxColumnWidth(
+                        FixedColumnWidth(120),
+                        FixedColumnWidth(330),
+                      ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Text("Descripción"),
-                    columnWidth: MaxColumnWidth(
-                      FixedColumnWidth(120),
-                      FixedColumnWidth(380),
+                    DataColumn(
+                      label: Text("Descripción"),
+                      columnWidth: MaxColumnWidth(
+                        FixedColumnWidth(120),
+                        FixedColumnWidth(380),
+                      ),
                     ),
-                  ),
-                  DataColumn(label: Text("Acciones")),
-                ],
-                rows:
-                    asignacion.map((usuario) {
-                      return DataRow(
-                        cells: [
-                          DataCell(Text(usuario[0].toString())), 
-                          DataCell(Text(usuario[1].toString())), 
-                          DataCell(Text(usuario[2].toString())), 
-                          DataCell(
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                     _showDialog('Editar', usuario);
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                  color: Colors.blue,
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    _eliminar(usuario[0]);
-                                  },
-                                  icon: const Icon(Icons.delete),
-                                  color: Colors.red,
-                                ),
-                              ],
+                    DataColumn(label: Text("Acciones")),
+                  ],
+                  rows:
+                      asignacion.map((usuario) {
+                        return DataRow(
+                          cells: [
+                            DataCell(Text(usuario[0].toString())), 
+                            DataCell(Text(usuario[1].toString())), 
+                            DataCell(Text(usuario[2].toString())), 
+                            DataCell(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                       _showDialog('Editar', usuario);
+                                    },
+                                    icon: const Icon(Icons.edit),
+                                    color: Colors.blue,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      _eliminar(usuario[0]);
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                          ],
+                        );
+                      }).toList(),
+                ),
               ),
             ),
           );

@@ -16,7 +16,7 @@ class AsingacionEstudianteService {
     final datos =
         await asignacion
             .fetchAsignaciones(); // Asegúrate de que esto devuelva un arreglo bidimensional
-    final url = Uri.parse('http://192.168.1.70:8080/v1/estudiantes/obtenerFK');
+    final url = Uri.parse('http://192.168.0.44:8080/v1/estudiantes/obtenerFK');
     final response = await http.get(url);
     final List<dynamic> data = jsonDecode(response.body) as List<dynamic>;
 
@@ -53,7 +53,7 @@ class AsingacionEstudianteService {
     context,
   ) async {
     final url = Uri.parse(
-      'http://192.168.1.70:8080/v1/asignarAsignacionEstudiante/$idAsignacion/$idUsuario/$califiacion/$fecha',
+      'http://192.168.0.44:8080/v1/asignarAsignacionEstudiante/$idAsignacion/$idUsuario/$califiacion/$fecha',
     );
     // ignore: prefer_typing_uninitialized_variables
     var response;
@@ -82,7 +82,7 @@ class AsingacionEstudianteService {
 
   Future<bool> eliminarAsignacion(int asignacionFK, int estudianteFK) async {
     final url = Uri.parse(
-      'http://192.168.1.70:8080/v1/eliminarAsignacionEstudiantes/$asignacionFK/$estudianteFK',
+      'http://192.168.0.44:8080/v1/eliminarAsignacionEstudiantes/$asignacionFK/$estudianteFK',
     );
     try {
       final response = await http.delete(url);
@@ -102,7 +102,7 @@ class AsingacionEstudianteService {
     await obtenerUA(usuarioid);
     double promedio = contador == 0 ? 0.0 : suma / contador;
     final urlProm = Uri.parse(
-      'http://192.168.1.70:8080/v1/Promedio/editar/$usuarioid',
+      'http://192.168.0.44:8080/v1/Promedio/editar/$usuarioid',
     );
     final Map<String, dynamic> requestBody = {
       "nombre": nombre,
@@ -126,15 +126,13 @@ class AsingacionEstudianteService {
         return false;
       }
     } catch (e) {
-      // ignore: avoid_print
-      print('hola $e');
       return false;
     }
   }
 
   Future<bool> editarAsignacion(asignacion, newCalif) async {
     final url = Uri.parse(
-      'http://192.168.1.70:8080/v1/calificacion/editar/${asignacion[4]}',
+      'http://192.168.0.44:8080/v1/calificacion/editar/${asignacion[4]}',
     );
     final Map<String, dynamic> requestBody = {
       'estudianteFK': asignacion[0],

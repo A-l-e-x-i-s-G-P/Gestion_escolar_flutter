@@ -24,7 +24,7 @@ class _EstudiantesState extends State<Estudiantes> {
   @override
   void initState() {
     super.initState();
-    //idsFuture = _usuarioService.fetchUsuarioIds();
+    idsFuture = _usuarioService.fetchUsuarioIds();
     idsEstudiantesFuture = _estudiantesService.fetchEstudiantesIds();
     usuariosExitentesFuture = _estudiantesService.usuarioExintes();
   }
@@ -114,76 +114,91 @@ class _EstudiantesState extends State<Estudiantes> {
             scrollDirection: Axis.vertical,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: DataTable(
-                sortAscending: true,
-                columns: const [
-                  DataColumn(label: Text("ID")),
-                  DataColumn(label: Text("Nombre")),
-                  DataColumn(label: Text("Email")),
-                  DataColumn(label: Text("Grado")),
-                  DataColumn(label: Text("Grupo")),
-                  DataColumn(label: Text("Telefono")),
-                  DataColumn(label: Text("CURP")),
-                  DataColumn(label: Text("Usuario")),
-                  DataColumn(label: Text("Promedio")),
-                  DataColumn(label: Text("Acciones")),
-                ],
-                rows:
-                    estudiantes.map((estudiante) {
-                      return DataRow(
-                        cells: [
-                          DataCell(Text(estudiante[0].toString())),
-                          DataCell(Text(estudiante[1].toString())),
-                          DataCell(Text(estudiante[2].toString())),
-                          DataCell(Text(estudiante[3].toString())),
-                          DataCell(Text(estudiante[4].toString())),
-                          DataCell(Text(estudiante[5].toString())),
-                          DataCell(Text(estudiante[6].toString())),
-                          DataCell(Text(estudiante[7].toString())),
-                          DataCell(Text(estudiante[8].toString())),
-
-                          DataCell(
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    _showDialog('Editar', estudiante);
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                  color: Colors.blue,
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.delete),
-                                  color: Colors.red,
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      'asignacionEstudiante',
-                                      arguments: {
-                                      'id': estudiante[0],
-                                      'nombre': estudiante[1],
-                                      'correo': estudiante[2],
-                                      'grado': estudiante[3],
-                                      'grupo': estudiante[4],
-                                      'telefono': estudiante[5],
-                                      'curp': estudiante[6],
-                                      'usuario': estudiante[7],
-                                      
-                                      },
-                                    );
-                                  },
-                                  icon: Icon(Icons.assignment),
-                                ),
-                              ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DataTable(
+                  border: TableBorder.all(
+                        color: const Color.fromARGB(255, 21, 30, 38),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      headingRowColor: WidgetStateProperty.all<Color>(
+                        const Color.fromARGB(255, 21, 30, 38),
+                      ),
+                      headingTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  sortAscending: true,
+                  columns: const [
+                    DataColumn(label: Text("ID")),
+                    DataColumn(label: Text("Nombre")),
+                    DataColumn(label: Text("Email")),
+                    DataColumn(label: Text("Grado")),
+                    DataColumn(label: Text("Grupo")),
+                    DataColumn(label: Text("Telefono")),
+                    DataColumn(label: Text("CURP")),
+                    DataColumn(label: Text("Usuario")),
+                    DataColumn(label: Text("Promedio")),
+                    DataColumn(label: Text("Acciones")),
+                  ],
+                  rows:
+                      estudiantes.map((estudiante) {
+                        return DataRow(
+                          cells: [
+                            DataCell(Text(estudiante[0].toString())),
+                            DataCell(Text(estudiante[1].toString())),
+                            DataCell(Text(estudiante[2].toString())),
+                            DataCell(Text(estudiante[3].toString())),
+                            DataCell(Text(estudiante[4].toString())),
+                            DataCell(Text(estudiante[5].toString())),
+                            DataCell(Text(estudiante[6].toString())),
+                            DataCell(Text(estudiante[7].toString())),
+                            DataCell(Text(estudiante[8].toString())),
+                
+                            DataCell(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      _showDialog('Editar', estudiante);
+                                    },
+                                    icon: const Icon(Icons.edit),
+                                    color: Colors.blue,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.delete),
+                                    color: Colors.red,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        'asignacionEstudiante',
+                                        arguments: {
+                                        'id': estudiante[0],
+                                        'nombre': estudiante[1],
+                                        'correo': estudiante[2],
+                                        'grado': estudiante[3],
+                                        'grupo': estudiante[4],
+                                        'telefono': estudiante[5],
+                                        'curp': estudiante[6],
+                                        'usuario': estudiante[7],
+                                        
+                                        },
+                                      );
+                                    },
+                                    icon: Icon(Icons.assignment),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                          ],
+                        );
+                      }).toList(),
+                ),
               ),
             ),
           );
@@ -310,6 +325,7 @@ class _EstudiantesState extends State<Estudiantes> {
                 ),
                 TextField(
                   controller: _promedioController,
+                  enabled: accion== 'Agregar'? true: false,
                   decoration: const InputDecoration(labelText: 'Promedio'),
                 ),
               ],
